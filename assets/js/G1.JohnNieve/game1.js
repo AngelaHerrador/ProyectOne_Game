@@ -151,17 +151,13 @@ class Game1 {
   
 
   checkCollisions() {
-    const restCoins = this.coins.filter(coin => !this.mario.collidesWith(coin))
-    const newPoints = this.coins.length - restCoins.length
-    this.points += newPoints
+    // const restCoins = this.coins.filter(coin => !this.mario.collidesWith(coin))
+    // const newPoints = this.coins.length - restCoins.length
+    // this.points += newPoints
 
-    if (newPoints) {
-      this.sounds.coin.currentTime = 0
-      this.sounds.coin.play()
-    }
-
-    if () {
-      
-    }
+    // if (newPoints) {
+    //   this.sounds.coin.currentTime = 0
+    //   this.sounds.coin.play()
+    // }
    }
 }

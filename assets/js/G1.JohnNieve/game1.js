@@ -160,6 +160,6 @@ class Game1 {
       this.sounds.coin.play()
     }
 
-    this.coins = restCoins
+    
    }
 }

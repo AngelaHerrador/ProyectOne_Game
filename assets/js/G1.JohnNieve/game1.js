@@ -160,6 +160,8 @@ class Game1 {
       this.sounds.coin.play()
     }
 
-    
+    if () {
+      
+    }
    }
 }

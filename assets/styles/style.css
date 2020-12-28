@@ -1,0 +1,88 @@
+@font-face {
+    font-family: "GameOfThrones";
+    src: url("./Game\ of\ Thrones.ttf") format("truetype");
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url('../img/Background/backgroundImage1.jpg');
+    background-repeat: no-repeat;
+    background-position: center 1%;
+    background-size: cover;
+}
+
+canvas {
+    position: absolute;
+    left: 50%;
+    top: 55%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+}
+
+.hidden{
+    display: none;
+}
+
+button {
+    width: 100px;
+    padding: 10px;
+    margin: 10px 20px 20px 20px;
+    font-size: 20px;
+    font-weight: bolder;
+    background-color: #18C49A;
+}
+
+.display{
+    position: absolute;
+    left: 50%;
+    top: 55%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.choose{
+    width: 400px;
+    margin: 10px;
+}
+
+#player1 {
+    width: 250px;
+}
+
+#player2{
+    width: 232px;
+}
+
+.hover {
+    border: 20px solid #18C49A;
+    width: 400px;
+}
+
+.instructions{
+    color: #fff;
+    position: absolute;
+    left: 30%;
+    top: 80%;
+    width: 500px;
+    display: flex;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.instructions img{
+    width: 100px;
+}
+
+.instructions h2{
+    margin-right: 20px;
+}
+
+.instructions p{
+    width: 200px;
+}
+

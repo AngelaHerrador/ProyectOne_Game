@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game of Thrones</title>
+    <link rel="stylesheet" href="./assets/styles/style.css">
+</head>
+<body>
+    <div class= "display">
+        <img class= 'choose' src="./assets/img/Choose.png" alt="Choose your player">
+        <div>
+            <img id= 'player1' src="./assets/img/JonSnow.png" alt="Player1">
+            <img id= 'player2' src="./assets/img/Daenerys.png" alt="Player2">
+        </div>
+        <div>
+            <button id='start-button'>START</button>
+        </div>
+    </div>
+    <div class= 'instructions'>
+        <h2>INSTRUCTIONS</h2>
+            <div>
+                <p>Use the arrow keys to move forward, backward and jump.</p>
+                <img src="./assets/img/Arrows.jpg" alt="Arrows keyboard">
+            </div>
+            <div>
+                <p>Use the space key to throw your sword to the enemies.</p>
+                <img src="./assets/img/Space.jpg" alt="Space keyboard">
+            </div>
+    </div>
+    <canvas id='game' class="hidden"></canvas>
+    <canvas id='game2' class="hidden"></canvas>
+    
+    <script src="./assets/js/constants.js"></script>
+    <script src="./assets/js/score.js"></script>
+    <script src="./assets/js/G1.JohnNieve/G1lives.js"></script>
+    <script src="./assets/js/G1.JohnNieve/G1swordJN.js"></script>
+    <script src="./assets/js/G1.JohnNieve/G1obstacles.js"></script>
+    <script src="./assets/js/G1.JohnNieve/G1background.js"></script>
+    <script src="./assets/js/G1.JohnNieve/G1fireball.js"></script>
+    <script src="./assets/js/G1.JohnNieve/G1enemieKhal.js"></script>
+    <script src="./assets/js/G1.JohnNieve/G1enemieKhalesi.js"></script>
+    <script src="./assets/js/G1.JohnNieve/G1player.js"></script>
+    <script src="./assets/js/G1.JohnNieve/game1.js"></script>
+    
+    <script src="./assets/js/G2.Khalesi/G2background.js"></script>
+    <script src="./assets/js/G2.Khalesi/G2obstacles.js"></script>
+    <script src="./assets/js/G2.Khalesi/G2enemieKing.js"></script>
+    <script src="./assets/js/G2.Khalesi/G2player.js"></script>
+    <script src="./assets/js/G2.Khalesi/game2.js"></script>
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>

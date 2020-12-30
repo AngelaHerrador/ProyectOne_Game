@@ -17,6 +17,9 @@ class Game1 {
     
     this.sounds = {
       theme,
+      live: new Audio('assets/sounds/live.mp3'),
+      gameOver: new Audio('assets/sounds/game-over.mp3'),
+      start: new Audio('assets/sounds/start.mp3')
     }
     this.obstacles = []
     this.obstacleDrawCount = 0
@@ -37,7 +40,7 @@ class Game1 {
 
     this.points = 0
     this.pointsSword = new Score (this.ctx, 5, 10)
-    this.pointsLives = new LivesPoints(this.ctx, this.canvas.width - 165, 9)
+    this.pointsLives = new LivesPoints(this.ctx, this.ctx.canvas.width - 165, 9)
     
     this.pointScore = 0
     this.pointLives = 5
@@ -45,7 +48,9 @@ class Game1 {
 
   start() {
     if (!this.drawInterval) {
-      //this.sounds.theme.play()
+      this.sounds.theme.play()
+      //this.sounds.start.play()
+
       this.drawInterval = setInterval(() => {
         this.clear()
         this.move()
@@ -54,26 +59,32 @@ class Game1 {
         this.livesDrawCount++
         this.enemiesKhalDrawCount++
 
-        if (this.obstacleDrawCount % PIPE_FRAMES_OBSTACLES === 0) {
+        if (this.obstacleDrawCount % FRAMES_OBSTACLES === 0) {
           this.addObstacles()
           this.obstacleDrawCount = 0
         }
-        if (this.livesDrawCount % PIPE_FRAMES_LIVES === 0) {
+        if (this.livesDrawCount % FRAMES_LIVES === 0) {
           this.addLives()
           this.livesDrawCount = 0
         }
-        if (this.livesDrawCount % PIPE_FRAMES_KHAL === 0) {
+        if (this.livesDrawCount % FRAMES_KHAL === 0) {
           this.addEnemiesKhal()
           this.enemiesKhalDrawCount = 0
         }
-      }, this.fps)
-
+        if (this.background.stop()) {
+          cclearInterval(this.drawInterval)
+        }
         this.checkCollisions()
+      }, this.fps)
     }
+    if (this.background.stop()) {
+          this.finalFigth()
+        }
   }
 
   clear() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    this.obstacles = this.obstacles.filter(obstacle => obstacle.y <= this.canvas.height)
   }
 
   draw() {
@@ -117,6 +128,40 @@ class Game1 {
     this.player.onKeyEvent(event)
 //     this.background.onKeyEvent(event)
 //     this.coins.forEach(coin => coin.onKeyEvent(event))
+   }
+  
+  finalFigth() {
+    this.clear()
+    clearInterval(this.drawInterval)
+
+  }
+  
+  gameOver() {
+    clearInterval(this.drawInterval)
+    this.sounds.gameOver.play()
+
+    this.ctx.save()
+
+    this.ctx.fillStyle = 'black'
+    this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
+
+    this.ctx.font = '30px Arial'
+    this.ctx.fillStyle = 'white'
+    this.ctx.textAlign = 'center'
+    this.ctx.fillText(
+      'GAME OVER!',
+      this.ctx.canvas.width / 2,
+      this.ctx.canvas.height / 2 - 100,
+    )
+    this.ctx.font = '25px Arial'
+    this.ctx.fillStyle = 'white'
+    this.ctx.fillText(
+      `Your final score ${this.pointScore}`,
+      this.ctx.canvas.width / 2,
+      this.ctx.canvas.height / 2 
+    )
+    
+    this.ctx.restore()
   }
    
   addObstacles() { 
@@ -124,9 +169,10 @@ class Game1 {
       new ObstaclesG1 (
         this.ctx,
         this.canvas.width,
-        this.canvas.height - 180
+        0
       )
     )
+    this.pointScore++
   }
 
   addLives() { 
@@ -146,18 +192,42 @@ class Game1 {
       this.canvas.width,
       this.canvas.height - 185)
   )
+    this.pointScore++
   }
   
-  
-
   checkCollisions() {
-    // const restCoins = this.coins.filter(coin => !this.mario.collidesWith(coin))
-    // const newPoints = this.coins.length - restCoins.length
-    // this.points += newPoints
-
-    // if (newPoints) {
-    //   this.sounds.coin.currentTime = 0
-    //   this.sounds.coin.play()
+    // if (this.obstacles.some(obstacle => this.player.collidesWith(obstacle))) {
+    //   this.pointLives -= 1
+    //   // if (this.pointLives < 1) {
+    //   //   this.gameOver()
+    //   // }
+    //   console.log(this.pointLives)
     // }
-   }
+
+    const restEnemies = this.enemiesKhal.filter(Khal => !this.player.collidesWith(Khal))
+    const newEnemies = this.enemiesKhal.length - restEnemies.length
+    this.pointLives -= newEnemies
+
+     
+    this.enemiesKhal = restEnemies
+  
+      if (this.pointLives < 1) {
+        this.gameOver()
+      } 
+    
+
+
+
+    const restLives = this.lives.filter(live => !this.player.collidesWith(live))
+    const newLives = this.lives.length - restLives.length
+    this.pointLives += newLives
+
+    if (newLives) {
+      this.sounds.live.currentTime = 0
+      this.sounds.live.play()
+    }
+
+    this.lives = restLives
+  }
+  
 }

@@ -5,6 +5,9 @@ class ObstaclesG1 {
     this.x = x
     this.y = y
 
+    this.vx = 2.3
+    this.vy = 1.3
+
     this.sprite = new Image()
     this.sprite.src = './assets/img/fireObstacle.png'
     this.sprite.isReady = false
@@ -36,8 +39,8 @@ class ObstaclesG1 {
         this.sprite.frameHeight,
         this.x,
         this.y,
-        this.width,
-        this.height
+        70,
+        70
       )
       this.sprite.drawCount++
       this.animate()
@@ -56,6 +59,10 @@ class ObstaclesG1 {
   }
 
   move() {
-    this.x -= SPEED
+    this.x -= this.vx
+    this.y += this.vy
   }
 }
+
+
+

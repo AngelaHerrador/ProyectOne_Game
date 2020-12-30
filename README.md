@@ -23,10 +23,10 @@ E. Weapons players: las armas del player1 seran espadas que restarán a sus enem
 
 F. Weapons enemies: las armas de Khal Drogo seran bolas de fuego que restarán al player 1 punto de vida.
 
-G. Collisions: 
+G. Collisions: Cada vez que el player colisione con un obstaculo, enemigo o arma del enemigo, se restara 1 punto en la vida del player.
 
-H. Score: 
+H. Score: Por cada obstaculo que aparezca en el canvas y que el player supere, sumará 
 
-I. Lives:
+I. Lives: de 
 
 

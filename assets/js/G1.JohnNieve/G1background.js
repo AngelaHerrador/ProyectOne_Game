@@ -46,8 +46,10 @@ class BackgroundG1 {
     if (this.x + this.width <= 0) {
       this.x = 0
     }
+  }
 
-    if (this.x + this.width == 1000) {           //Cuadrar el máximo donde aparece Khalesi
+   stop() {
+    if (this.x + this.width === 300) {           //Cuadrar el máximo donde aparece Khalesi
       this.vx = 0
     }
   }

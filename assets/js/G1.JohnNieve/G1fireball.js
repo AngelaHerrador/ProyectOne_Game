@@ -50,7 +50,7 @@ class Fireball {
   }
 
   move() {
-    this.x -= this.vx
+    this.x -= this.vx * 3
     this.y += this.vy
     this.vy += GRAVITY
 

@@ -91,7 +91,7 @@ class PlayerG1 {
                 this.animateJump()
                 this.swords.push(new SwordJN(this.ctx, this.x + this.width, this.y, this.maxY + this.height))
                 this.sounds.figth.currentTime = 0
-                //this.sounds.figth.play()
+                this.sounds.figth.play()
                 this.canFigth = false
                 setTimeout(() => {
                     this.canFigth = true
@@ -109,7 +109,7 @@ class PlayerG1 {
         
         if (this.movements.up && !this.isJumping) {
             this.isJumping = true
-            this.vy = -8
+            this.vy = -10
         } else if (this.isJumping) {
             this.vy += GRAVITY
         }

@@ -66,15 +66,16 @@ class EnemieKhal {
         this.sprite.drawCount = 0
         }
         if (this.canFire) {
-          this.bullets.push(new Fireball(this.ctx, this.x + this.width, this.y, this.maxY + this.height))
+          this.bullets.push(new Fireball(this.ctx, this.x, this.y, this.maxY + this.height))
           this.canFire = false
           setTimeout(() => {
-            this.canFire = true
-          }, 500);
+              this.canFire = true
+          }, 3000);
         }
     }
 
     move() {
+        this.bullets.forEach(bullet => bullet.move())
         this.x -= SPEED_KHAL
     }
 }

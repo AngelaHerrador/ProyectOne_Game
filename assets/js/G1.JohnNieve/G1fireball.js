@@ -40,8 +40,8 @@ class Fireball {
         this.sprite.frameHeight,
         this.x,
         this.y,
-        this.width,
-        this.height
+        30,
+        30
       )
 
       this.sprite.drawCount++
@@ -57,6 +57,16 @@ class Fireball {
     if (this.y >= (this.maxY - this.height)) {
       this.vy *= -1;
     }
+  }
+
+  move2() {
+    this.x -= this.vx * 3
+    // this.y += this.vy
+    // this.vy += GRAVITY
+
+    // if (this.y >= (this.maxY - this.height)) {
+    //   this.vy *= -1;
+    // }
   }
 
   animate() {

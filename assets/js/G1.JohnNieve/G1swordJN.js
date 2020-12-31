@@ -2,7 +2,7 @@ class SwordJN {
   constructor(ctx, x, y, maxY) {
     this.ctx = ctx
     this.x = x
-    this.vx = SPEED
+    this.vx = SPEED_SWORD
 
     this.y = y
     this.maxY = maxY
@@ -51,11 +51,11 @@ class SwordJN {
 
   move() {
     this.x += this.vx
-    this.vy += GRAVITY
+    // this.vy += GRAVITY
 
-    if (this.y >= (this.maxY - this.height)) {
-      this.vy *= -1;
-    }
+    // if (this.y >= (this.maxY - this.height)) {
+    //   this.vy *= -1;
+    // }
   }
 
   animate() {

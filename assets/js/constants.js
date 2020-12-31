@@ -4,7 +4,7 @@ const KEY_LEFT = 37
 const KEY_FIGTH = 32
 
 const SPEED = 3
-const SPEED_SWORD = 20
+const SPEED_SWORD = 8
 const SPEED_KHAL = 4
 const GRAVITY = 0.4
 const DIRECTION = 1

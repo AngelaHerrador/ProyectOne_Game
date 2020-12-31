@@ -52,8 +52,8 @@ class Game1 {
 
   start() {
     if (!this.drawInterval) {
-      //this.sounds.theme.play()
-      //this.sounds.start.play()
+      this.sounds.theme.play()
+      this.sounds.start.play()
 
       this.drawInterval = setInterval(() => {
         this.clear()

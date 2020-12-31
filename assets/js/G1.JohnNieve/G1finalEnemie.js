@@ -4,7 +4,7 @@ class finalEnemie {
 
         this.x = x
         this.y = y
-        //this.maxY = y
+        this.maxY = y
 
         this.vx = 0.5
         this.vy = 2
@@ -24,12 +24,18 @@ class finalEnemie {
             this.width = this.sprite.frameWidth
             this.height = this.sprite.frameHeight
         }
+    
+        this.canFire = true
 
-        this.drawInterval = undefined
+        this.bullets = []
     }
 
     isReady() {
         return this.sprite.isReady
+    }
+
+    clear() {
+    this.bullets = this.bullets.filter(bullet => bullet.x <= this.ctx.canvas.x)
     }
 
     draw() {
@@ -47,6 +53,7 @@ class finalEnemie {
         )
             
         this.sprite.drawCount++
+        this.bullets.forEach(bullet => bullet.draw())
         this.animate()
         }
     }
@@ -60,16 +67,17 @@ class finalEnemie {
         }
         this.sprite.drawCount = 0
         }
+        if (this.canFire) {
+            this.bullets.push(new Fireball(this.ctx, this.x, this.y + 160, this.maxY + this.height))
+          this.canFire = false
+          setTimeout(() => {
+              this.canFire = true
+          }, 3000);
+        }
     }
 
     move() {
-        // if (!this.drawInterval) {
-        //     this.drawInterval = setInterval(() => {
-        //         this.vy += GRAVITY
-        //         this.y += this.vy
-        //     }, 1000)
-        // }
-
+    this.bullets.forEach(bullet => bullet.move2())
     this.x += this.vx
     this.y += this.vy
 

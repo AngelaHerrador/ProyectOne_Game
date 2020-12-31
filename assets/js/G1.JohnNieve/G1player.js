@@ -143,6 +143,46 @@ class PlayerG1 {
             this.vy = 0
         }
     }
+
+    move2() {
+        this.swords.forEach(sword => sword.move())
+        
+        if (this.movements.up && !this.isJumping) {
+            this.isJumping = true
+            this.vy = -10
+        } else if (this.isJumping) {
+            this.vy += GRAVITY
+        }
+        
+        if (this.movements.right) {
+            this.vx = SPEED
+        } else if (this.movements.left) {
+            this.vx = -SPEED
+        } else {
+            this.vx = 0
+        }
+        
+        this.x += this.vx
+        this.y += this.vy
+        
+        if (this.x + this.width >= this.maxX) {
+            this.x = this.maxX - this.width
+            this.vx = 0
+        } else if (this.x <= this.minX) {
+            this.x = this.minX
+        }
+        
+        // if (this.x <= this.maxX) {
+        //     this.vx = -8
+        //     this.x -= DIRECTION
+        // }
+        
+        if (this.y >= this.maxY) {
+            this.isJumping = false
+            this.y = this.maxY
+            this.vy = 0
+        }
+    }
     
     animate() {
         if (this.isJumping) {

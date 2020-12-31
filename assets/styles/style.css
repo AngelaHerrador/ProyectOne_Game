@@ -1,6 +1,8 @@
 @font-face {
     font-family: "GameOfThrones";
-    src: url("./Game\ of\ Thrones.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+    src: local ("?"), url("./GameofThrones.eot"), format("eot"), url("./GameofThrones.ttf"), format("truetype");
 }
 
 * {

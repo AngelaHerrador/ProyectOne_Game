@@ -7,10 +7,12 @@ class Game1 {
 
     this.fps = 1000 / 60
     this.drawInterval = undefined
+    this.drawInterval2 = undefined
 
     this.background = new BackgroundG1 (this.ctx)
     this.player = new PlayerG1(this.ctx, 10, this.canvas.height - 165)
-    this.enemieKhaleesi = new EnemieKhaleesi (this.ctx, this.canvas.width, 25)
+    this.enemieKhaleesi = new EnemieKhaleesi(this.ctx, this.canvas.width, 25)
+    this.finalEnemie = new finalEnemie(this.ctx, this.canvas.width/2, 25)
     
     const theme = new Audio('assets/sounds/theme.mp3')
     theme.volume = 0.5
@@ -19,7 +21,9 @@ class Game1 {
       theme,
       live: new Audio('assets/sounds/live.mp3'),
       gameOver: new Audio('assets/sounds/game-over.mp3'),
-      start: new Audio('assets/sounds/start.mp3')
+      start: new Audio('assets/sounds/start.mp3'),
+      finalFigth: new Audio('assets/sounds/finalFigth.mp3'),
+      youWin: new Audio('assets/sounds/you-win.mp3')
     }
     this.obstacles = []
     this.obstacleDrawCount = 0
@@ -48,7 +52,7 @@ class Game1 {
 
   start() {
     if (!this.drawInterval) {
-      this.sounds.theme.play()
+      //this.sounds.theme.play()
       //this.sounds.start.play()
 
       this.drawInterval = setInterval(() => {
@@ -71,15 +75,10 @@ class Game1 {
           this.addEnemiesKhal()
           this.enemiesKhalDrawCount = 0
         }
-        if (this.background.stop()) {
-          cclearInterval(this.drawInterval)
-        }
         this.checkCollisions()
       }, this.fps)
+      
     }
-    if (this.background.stop()) {
-          this.finalFigth()
-        }
   }
 
   clear() {
@@ -99,13 +98,13 @@ class Game1 {
     
 
     this.ctx.save()
-    this.ctx.font = '18px Arial'
-    this.ctx.fillText(`Score: ${this.pointScore}`, 30, 30)
+    this.ctx.font = '18px GameOfThrones'
+    this.ctx.fillText(`Score: ${this.pointScore}`, 30, 33)
     this.ctx.restore()
   
     this.ctx.save()
-    this.ctx.font = '18px Arial'
-    this.ctx.fillText(`Lives: ${this.pointLives}`, this.canvas.width - 100, 30)
+    this.ctx.font = '18px GameOfThrones'
+    this.ctx.fillText(`Lives: ${this.pointLives}`, this.canvas.width - 100, 33)
     this.ctx.restore()
    }
   
@@ -131,10 +130,56 @@ class Game1 {
    }
   
   finalFigth() {
-    this.clear()
     clearInterval(this.drawInterval)
-
+      this.sounds.theme.pause()
+      this.sounds.finalFigth.play()
+      this.drawInterval2 = setInterval(() => {
+        this.background.draw()
+        this.player.draw()
+        this.player.move2()
+        this.finalEnemie.draw()
+        this.finalEnemie.move()
+      }, this.fps) 
   }
+
+  youPass() {
+    clearInterval(this.drawInterval)
+    this.sounds.theme.pause()
+    this.sounds.finalFigth.play()
+
+    this.ctx.save()
+
+    this.ctx.fillStyle = 'rgba(243, 155, 104, 0.5)'
+    this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
+
+    this.ctx.font = '30px GameOfThrones'
+    this.ctx.fillStyle = 'rgba(160, 13, 60, 1)'
+    this.ctx.textAlign = 'center'
+    this.ctx.fillText(
+      "It's the time...",
+      this.ctx.canvas.width / 2,
+      this.ctx.canvas.height / 2 - 50,
+    )
+
+    this.ctx.font = '30px GameOfThrones'
+    this.ctx.fillStyle = 'rgba(160, 13, 60, 1)'
+    this.ctx.textAlign = 'center'
+    this.ctx.fillText(
+      'ARE YOU READY FOR THE FINAL BATTLE?',
+      this.ctx.canvas.width / 2,
+      this.ctx.canvas.height / 2 + 20,
+    )
+
+    this.ctx.font = '15px GameOfThrones'
+    this.ctx.fillStyle = 'rgba(160, 13, 60, 1)'
+    this.ctx.fillText(
+      `Your score is now: ${this.pointScore}`,
+      this.ctx.canvas.width / 2,
+      this.ctx.canvas.height/2 + 200 
+    )
+    this.ctx.restore()
+  }
+  
   
   gameOver() {
     clearInterval(this.drawInterval)
@@ -145,7 +190,7 @@ class Game1 {
     this.ctx.fillStyle = 'black'
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
 
-    this.ctx.font = '30px Arial'
+    this.ctx.font = '30px GameOfThrones'
     this.ctx.fillStyle = 'white'
     this.ctx.textAlign = 'center'
     this.ctx.fillText(
@@ -153,7 +198,7 @@ class Game1 {
       this.ctx.canvas.width / 2,
       this.ctx.canvas.height / 2 - 100,
     )
-    this.ctx.font = '25px Arial'
+    this.ctx.font = '25px GameOfThrones'
     this.ctx.fillStyle = 'white'
     this.ctx.fillText(
       `Your final score ${this.pointScore}`,
@@ -173,6 +218,13 @@ class Game1 {
       )
     )
     this.pointScore++
+    if (this.pointScore > 2) {
+    this.youPass()
+    setTimeout(() => {
+      this.finalFigth()
+    }, 5000);
+      
+    }
   }
 
   addLives() { 

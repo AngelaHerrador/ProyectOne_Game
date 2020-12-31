@@ -47,10 +47,4 @@ class BackgroundG1 {
       this.x = 0
     }
   }
-
-   stop() {
-    if (this.x + this.width === 300) {           //Cuadrar el máximo donde aparece Khalesi
-      this.vx = 0
-    }
-  }
 }

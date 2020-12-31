@@ -36,8 +36,8 @@ class LivesG1 {
         this.sprite.frameHeight,
         this.x,
         this.y,
-        80,
-        80
+        50,
+        50
       )
       this.sprite.drawCount++
       this.animate()

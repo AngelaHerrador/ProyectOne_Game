@@ -88,3 +88,8 @@ button {
     width: 200px;
 }
 
+#playAgain-button{
+    position: absolute;
+    right: -70%;
+    top: 50%;
+}

@@ -28,6 +28,10 @@ class finalEnemie2 {
         this.canFire = true
 
         this.bullets = []
+
+        this.haveCollide = false
+
+        this.livesKN = 5
     }
 
     isReady() {
@@ -100,5 +104,17 @@ class finalEnemie2 {
         this.x = 100
         this.vx = 0.7
     }
+    }
+
+    collidesWith(element) {
+        if (this.x < element.x + element.width &&
+        this.x + this.width > element.x &&
+        this.y < element.y + element.height &&
+        this.y + this.height > element.y &&
+            !element.haveCollide) {
+            element.haveCollide = true
+            return true
+        }
+        return false  
     }
 }

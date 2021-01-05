@@ -41,7 +41,7 @@ document.addEventListener('keyup', (event) => {
     }
   }
 
-  if (game1.isFinished === true) {
+  if (game1.isFinished) {
     playAgainButton.classList.remove('hidden')
     const canvasGame = document.getElementById('game')
     canvasGame.classList.add('hidden')

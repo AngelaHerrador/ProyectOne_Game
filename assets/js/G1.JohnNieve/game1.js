@@ -266,6 +266,11 @@ class Game1 {
 
     this.ctx.save()
 
+    this.img = new Image()
+    this.img.src = 'assets/img/final/jonSnow.jpg'
+    this.img.onload = () => this.ctx.drawImage(this.img, 40, 25, 300, 400) 
+    
+
     this.ctx.fillStyle = 'black'
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
 
@@ -274,15 +279,24 @@ class Game1 {
     this.ctx.textAlign = 'center'
     this.ctx.fillText(
       'YOU WIN!',
-      this.ctx.canvas.width / 2,
+      this.ctx.canvas.width / 2 + 150,
       this.ctx.canvas.height / 2 - 100,
     )
+
     this.ctx.font = '25px GameOfThrones'
     this.ctx.fillStyle = 'white'
     this.ctx.fillText(
-      `Your final score ${this.pointScore}`,
-      this.ctx.canvas.width / 2,
+      `Your final score is`,
+      this.ctx.canvas.width / 2 + 150,
       this.ctx.canvas.height / 2
+    )
+
+    this.ctx.font = '30px GameOfThrones'
+    this.ctx.fillStyle = 'white'
+    this.ctx.fillText(
+      `${this.pointScore}`,
+      this.ctx.canvas.width / 2 + 150,
+      this.ctx.canvas.height / 2 + 100
     )
     
     this.ctx.restore()
@@ -292,34 +306,48 @@ class Game1 {
   
   
   gameOver() {
-    clearInterval(this.drawInterval)
-    clearInterval(this.drawInterval2)
-    this.sounds.gameOver.play()
+    if (!this.isFinished) {
+      
+      clearInterval(this.drawInterval)
+      clearInterval(this.drawInterval2)
+      this.sounds.theme.pause()
+      this.sounds.gameOver.play()
+  
+      this.ctx.save()
+  
+      this.ctx.fillStyle = 'black'
+      this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
+  
+      this.ctx.font = '30px GameOfThrones'
+      this.ctx.fillStyle = 'white'
+      this.ctx.textAlign = 'center'
+      this.ctx.fillText(
+        'GAME OVER',
+        this.ctx.canvas.width / 2,
+        this.ctx.canvas.height / 2 - 100,
+      )
 
-    this.ctx.save()
+      this.ctx.font = '25px GameOfThrones'
+      this.ctx.fillStyle = 'white'
+      this.ctx.fillText(
+        `Your final score is`,
+        this.ctx.canvas.width / 2,
+        this.ctx.canvas.height / 2
+      )
 
-    this.ctx.fillStyle = 'black'
-    this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
-
-    this.ctx.font = '30px GameOfThrones'
-    this.ctx.fillStyle = 'white'
-    this.ctx.textAlign = 'center'
-    this.ctx.fillText(
-      'GAME OVER!',
-      this.ctx.canvas.width / 2,
-      this.ctx.canvas.height / 2 - 100,
-    )
-    this.ctx.font = '25px GameOfThrones'
-    this.ctx.fillStyle = 'white'
-    this.ctx.fillText(
-      `Your final score ${this.pointScore}`,
-      this.ctx.canvas.width / 2,
-      this.ctx.canvas.height / 2
-    )
-    
-    this.ctx.restore()
-
-    this.isFinished = true
+      this.ctx.font = '30px GameOfThrones'
+      this.ctx.fillStyle = 'white'
+      this.ctx.fillText(
+        `${this.pointScore}`,
+        this.ctx.canvas.width / 2,
+        this.ctx.canvas.height / 2 + 100
+      )
+      
+      this.ctx.restore()
+      return false
+    }
+    this.isFinished === true
+    return true
   }
    
   addObstacles() {

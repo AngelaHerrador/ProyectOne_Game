@@ -24,6 +24,8 @@ class FireballKing {
     }
 
     this.sprite.drawCount = 0
+
+     this.haveCollide = false
   }
 
   isReady() {
@@ -75,4 +77,16 @@ class FireballKing {
       this.sprite.drawCount = 0
     }
   }
+
+  collidesWith(element) {
+        if (this.x < element.x + element.width &&
+        this.x + this.width > element.x &&
+        this.y < element.y + element.height &&
+        this.y + this.height > element.y &&
+            !element.haveCollide) {
+            element.haveCollide = true
+            return true
+        }
+        return false  
+    }
 }

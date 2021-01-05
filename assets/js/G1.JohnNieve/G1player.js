@@ -44,6 +44,8 @@ class PlayerG1 {
         this.sounds = {
             figth: new Audio('./assets/sounds/fireball.wav')
         }
+
+        this.haveCollide = false
     }
 
     isReady() {

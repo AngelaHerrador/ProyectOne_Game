@@ -44,6 +44,8 @@ class PlayerG2 {
         this.sounds = {
             figth: new Audio('./assets/sounds/fireball.wav')
         }
+
+        this.haveCollide = false
     }
 
     isReady() {
@@ -219,9 +221,14 @@ class PlayerG2 {
     }
 
     collidesWith(element) {
-        return this.x < element.x + element.width &&
+        if (this.x < element.x + element.width &&
         this.x + this.width > element.x &&
         this.y < element.y + element.height &&
-        this.y + this.height > element.y
+        this.y + this.height > element.y &&
+            !element.haveCollide) {
+            element.haveCollide = true
+            return true
+        }
+        return false  
     }
 }

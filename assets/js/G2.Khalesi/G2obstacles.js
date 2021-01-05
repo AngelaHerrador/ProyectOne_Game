@@ -23,6 +23,8 @@ class ObstaclesG2 {
       this.width = this.sprite.frameWidth
       this.height = this.sprite.frameHeight
     }
+
+    this.haveCollide = false
   }
 
   isReady() {
@@ -62,6 +64,18 @@ class ObstaclesG2 {
     this.x -= this.vx
     this.y += this.vy
   }
+
+  collidesWith(element) {
+        if (this.x < element.x + element.width &&
+        this.x + this.width > element.x &&
+        this.y < element.y + element.height &&
+        this.y + this.height > element.y &&
+            !element.haveCollide) {
+            element.haveCollide = true
+            return true
+        }
+        return false  
+    }
 }
 
 

@@ -48,6 +48,8 @@ class Game2 {
     
     this.pointScore = 0
     this.pointLives = 5
+
+    this.isStart = false
     this.isFinished = false
     this.time3 = 3
     this.time2 = 2
@@ -55,13 +57,15 @@ class Game2 {
     this.time = 0
   }
 
-  countDown() {
+ countDown() {
+
+    if (!this.isStart) {
     this.ctx.save()
   
-    this.ctx.fillStyle = 'rgba(161, 150, 2, 0.64)'
+    this.ctx.fillStyle = 'rgba(2, 45, 105, 0.4)'
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
     this.ctx.font = '200px GameOfThrones'
-    this.ctx.fillStyle = 'rgba(127, 118, 21, 1)'
+    this.ctx.fillStyle = 'rgba(2, 45, 105, 1)'
     this.ctx.fillText(`${this.time3}`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
   
     this.ctx.restore()  
@@ -70,10 +74,10 @@ class Game2 {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
       
       this.ctx.save()
-      this.ctx.fillStyle = 'rgba(161, 150, 2, 0.64)'
+      this.ctx.fillStyle = 'rgba(2, 45, 105, 0.4)'
       this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
       this.ctx.font = '200px GameOfThrones'
-      this.ctx.fillStyle = 'rgba(127, 118, 21, 1)'
+      this.ctx.fillStyle = 'rgba(2, 45, 105, 1)'
       this.ctx.fillText(`${this.time2}`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
   
       this.ctx.restore()  
@@ -83,10 +87,10 @@ class Game2 {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
       this.ctx.save()
-      this.ctx.fillStyle = 'rgba(161, 150, 2, 0.64)'
+      this.ctx.fillStyle = 'rgba(2, 45, 105, 0.4)'
       this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
       this.ctx.font = '200px GameOfThrones'
-      this.ctx.fillStyle = 'rgba(127, 118, 21, 1)'
+      this.ctx.fillStyle = 'rgba(2, 45, 105, 1)'
       this.ctx.fillText(`${this.time1}`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
   
       this.ctx.restore()  
@@ -96,23 +100,20 @@ class Game2 {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
       this.ctx.save()
-      this.ctx.fillStyle = 'rgba(161, 150, 2, 0.64)'
+      this.ctx.fillStyle = 'rgba(2, 45, 105, 0.4)'
       this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
       this.ctx.font = '200px GameOfThrones'
-      this.ctx.fillStyle = 'rgba(127, 118, 21, 1)'
+      this.ctx.fillStyle = 'rgba(2, 45, 105, 1)'
       this.ctx.fillText(`${this.time}`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
   
       this.ctx.restore()  
     }, 3000);
-
-    if (!this.isFinished) {
-      this.countDown()
-      this.sounds.start.play()
-        setTimeout(() => {
-          this.sounds.theme.play() 
-          this.start()
-        }, 4000);
-    }
+    this.sounds.start.play()
+      setTimeout(() => {
+        this.sounds.theme.play() 
+        this.start()
+      }, 4000);
+  }
   }
   
 
@@ -120,6 +121,7 @@ class Game2 {
     if (!this.drawInterval) {
       this.sounds.theme.play()
       this.drawInterval = setInterval(() => {
+        this.isStart = true
         this.clear()
         this.move()
         this.draw()
@@ -171,12 +173,6 @@ class Game2 {
     this.ctx.fillText(`Lives: ${this.pointLives}`, this.canvas.width - 100, 33)
     this.ctx.restore()
    }
-  
-  // generateObstacles() {
-  //   if (this.fps % 90 === 0) {
-  //     this.obstacles.push(new Obstacle(this.ctx, this.width, this.player.posY0, this.player.height));
-  //   }
-  // }
 
   move() {
     this.background.move()
@@ -189,8 +185,6 @@ class Game2 {
 
   onKeyEvent(event) {
      this.player.onKeyEvent(event)
-//     this.background.onKeyEvent(event)
-//     this.coins.forEach(coin => coin.onKeyEvent(event))
   }
    
   finalFigth() {
@@ -199,28 +193,32 @@ class Game2 {
       this.sounds.finalFigth.play()
       this.drawInterval2 = setInterval(() => {
         this.background.draw()
+        this.addMenu()
         this.player.draw()
         this.player.move2()
         this.finalEnemie.draw()
         this.finalEnemie.move()
-        
-        this.ctx.save()
-        this.ctx.font = '18px GameOfThrones'
-        this.ctx.fillText(`Lives Jon: ${this.pointLives}`, 30, 33)
-        this.ctx.restore()
-        
-        this.ctx.save()
-        this.ctx.font = '18px GameOfThrones'
-        this.ctx.fillText(`Score: ${this.pointScore}`, this.canvas.width / 3 + 50, 33)
-        this.ctx.restore()
-
-        this.ctx.save()
-        this.ctx.font = '18px GameOfThrones'
-        this.ctx.fillText(`Lives Daenerys: ${this.pointLives}`, this.canvas.width - 220, 33)
-        this.ctx.restore()
-        
+        this.checkCollisions2()
       }, this.fps) 
   }
+
+  addMenu() {
+    this.ctx.save()
+    this.ctx.font = '18px GameOfThrones'
+    this.ctx.fillText(`Lives Daenerys: ${this.pointLives}`, 30, 33)
+    this.ctx.restore()
+        
+    this.ctx.save()
+    this.ctx.font = '18px GameOfThrones'
+    this.ctx.fillText(`Score: ${this.pointScore}`, this.canvas.width / 3 + 50, 33)
+    this.ctx.restore()
+
+    this.ctx.save()
+    this.ctx.font = '18px GameOfThrones'
+    this.ctx.fillText(`Lives Night King: ${this.finalEnemie.livesDT}`, this.canvas.width - 220, 33)
+    this.ctx.restore()
+  }
+
 
   youPass() {
     clearInterval(this.drawInterval)
@@ -267,7 +265,12 @@ class Game2 {
 
     this.ctx.save()
 
-    this.ctx.fillStyle = 'black'
+    this.img = new Image()
+    this.img.src = 'assets/img/final/khalesi.jpg'
+    this.img.onload = () => this.ctx.drawImage(this.img, 40, 25, 280, 400) 
+    
+
+    this.ctx.fillStyle = 'rgba(197, 184, 32, 1)'
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
 
     this.ctx.font = '30px GameOfThrones'
@@ -275,23 +278,38 @@ class Game2 {
     this.ctx.textAlign = 'center'
     this.ctx.fillText(
       'YOU WIN!',
-      this.ctx.canvas.width / 2,
+      this.ctx.canvas.width / 2 + 150,
       this.ctx.canvas.height / 2 - 100,
     )
+
     this.ctx.font = '25px GameOfThrones'
     this.ctx.fillStyle = 'white'
     this.ctx.fillText(
-      `Your final score ${this.pointScore}`,
-      this.ctx.canvas.width / 2,
-      this.ctx.canvas.height / 2 
+      `Your final score is`,
+      this.ctx.canvas.width / 2 + 150,
+      this.ctx.canvas.height / 2
+    )
+
+    this.ctx.font = '30px GameOfThrones'
+    this.ctx.fillStyle = 'white'
+    this.ctx.fillText(
+      `${this.pointScore}`,
+      this.ctx.canvas.width / 2 + 150,
+      this.ctx.canvas.height / 2 + 100
     )
     
     this.ctx.restore()
+
+    this.isFinished = true
   }
   
   
   gameOver() {
+    if (!this.isFinished) {
+
     clearInterval(this.drawInterval)
+    clearInterval(this.drawInterval2)
+    this.sounds.theme.pause()
     this.sounds.gameOver.play()
 
     this.ctx.save()
@@ -303,19 +321,32 @@ class Game2 {
     this.ctx.fillStyle = 'white'
     this.ctx.textAlign = 'center'
     this.ctx.fillText(
-      'GAME OVER!',
+      'GAME OVER',
       this.ctx.canvas.width / 2,
       this.ctx.canvas.height / 2 - 100,
     )
+      
     this.ctx.font = '25px GameOfThrones'
-    this.ctx.fillStyle = 'white'
-    this.ctx.fillText(
-      `Your final score ${this.pointScore}`,
-      this.ctx.canvas.width / 2,
-      this.ctx.canvas.height / 2 
-    )
+      this.ctx.fillStyle = 'white'
+      this.ctx.fillText(
+        `Your final score is`,
+        this.ctx.canvas.width / 2,
+        this.ctx.canvas.height / 2
+      )
+
+      this.ctx.font = '30px GameOfThrones'
+      this.ctx.fillStyle = 'white'
+      this.ctx.fillText(
+        `${this.pointScore}`,
+        this.ctx.canvas.width / 2,
+        this.ctx.canvas.height / 2 + 100
+      )
     
-    this.ctx.restore()
+     this.ctx.restore()
+      return false
+    }
+    this.isFinished === true
+    return true
   }
    
   addObstacles() { 
@@ -347,44 +378,72 @@ class Game2 {
   }
 
   addEnemiesWhiteWalker() { 
-    const WhiteWalker1 = new EnemieWhiteWalker(
+  this.enemiesWhiteWalker.push(
+      new EnemieWhiteWalker(
       this.ctx,
       this.canvas.width,
       this.canvas.height - 175)
-    
-    this.enemiesWhiteWalker.push(WhiteWalker1)
-    
-    // if (WhiteWalker1.bullets.some(bullet=> this.player.collidesWith(bullet))) {
-    //   console.log ("Hola")
-    // }
+    )
     this.pointScore++
 
   }
   
   checkCollisions() {
-    if (this.obstacles.some(obstacle => this.player.collidesWith(obstacle))) {
-      this.pointLives -= 1
-      // if (this.pointLives < 1) {
-      //   this.gameOver()
-      // }
+
+    //JS with EnemieKhalesi (*) - Sin colisionar me baja 1pto -
+
+    if (this.player.collidesWith(this.enemieKing)) {
+      this.pointLives -=1
     }
 
-  //   if (this.enemiesKhal.bullets.some(bullet => this.player.collidesWith(bullet))) {
-  //   this.pointScore +=5
-  // }
-    
+    //JS with Obstacles
 
+    if (this.obstacles.some(obstacle => this.player.collidesWith(obstacle))) {
+      this.pointLives -= 1
+    }
+
+    //JS with fireball
+
+    this.enemiesWhiteWalker.forEach(whiteWalker => {
+      if (whiteWalker.bullets.some(bullet => this.player.collidesWith(bullet))) {
+        this.pointLives -= 1
+      }
+    })
+
+    //JS with Khals 
+
+    // - Crashes but doesn't go away
+
+    if (this.enemiesWhiteWalker.some(whiteWalker => this.player.collidesWith(whiteWalker))) {
+      this.pointLives -= 1
+    }
+
+    // - Crash and disappear
 
     const restEnemies = this.enemiesWhiteWalker.filter(whiteWalker => !this.player.collidesWith(whiteWalker))
     const newEnemies = this.enemiesWhiteWalker.length - restEnemies.length
     this.pointLives -= newEnemies
+    
+    this.enemiesWhiteWalker = restEnemies
 
-     
-    this.enemiesWhiteWalker= restEnemies
-  
-      if (this.pointLives < 1) {
-        this.gameOver()
-      } 
+    //JS Sword with Khal (*) - Antes de tocar al Khal desaparece -
+
+    this.player.fireballs.forEach(fireball => {
+      if (this.enemiesWhiteWalker.some(whiteWalker => whiteWalker.collidesWith(fireball))) {
+        //console.log('hola')
+        this.enemiesWhiteWalker = this.enemiesWhiteWalker.filter(whiteWalker => !fireball.collidesWith(whiteWalker))
+        this.player.fireballs = this.player.fireballs.filter(fireball => !this.enemiesWhiteWalker.forEach(whiteWalker => whiteWalker.collidesWith(fireball)))
+        this.pointScore +=5
+      }
+    })
+    
+    // Case GameOver 
+    
+    if (this.pointLives < 1) {
+      this.gameOver()
+    }
+
+    //JS with lives
     
     const restLives = this.lives.filter(live => !this.player.collidesWith(live))
     const newLives = this.lives.length - restLives.length
@@ -396,6 +455,45 @@ class Game2 {
     }
 
     this.lives = restLives
+  }
+
+
+  checkCollisions2() {
+
+    //Bullets with JS
+
+    if (this.finalEnemie.bullets.some(bullet => this.player.collidesWith(bullet))) {
+      this.pointLives -= 1
+    }
+
+    //Swords with finalEnemie (*) - No desaparece la espada al chocar con finalEnemie -
+
+    if (this.player.fireballs.some(fireball => this.finalEnemie.collidesWith(fireball))) {
+      this.player.fireballs = this.player.fireballs.filter(fireball => !this.finalEnemie.collidesWith(fireball))
+
+      this.pointScore += 5
+
+      this.finalEnemie.livesKN -= 1
+    }
+
+    //JS with finalEnemie
+
+    if (this.finalEnemie.collidesWith(this.player)) {
+      console.log ('hola')
+      this.gameOver()
+    }
+
+    //Case GameOver
+
+    if (this.pointLives < 1) {
+      this.gameOver()
+    }
+
+    //Case youWin
+
+    if (this.finalEnemie.livesKN < 1) {
+      this.congrats()
+    }
   }
   
 }

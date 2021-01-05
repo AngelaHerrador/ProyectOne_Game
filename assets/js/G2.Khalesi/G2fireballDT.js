@@ -1,4 +1,4 @@
-class SwordJN { 
+class FireballDT {
   constructor(ctx, x, y, maxY) {
     this.ctx = ctx
     this.x = x
@@ -9,9 +9,9 @@ class SwordJN {
     this.vy = SPEED
 
     this.sprite = new Image()
-    this.sprite.src = './assets/img/espada.png'
+    this.sprite.src = './assets/img/fireball.sprite.png'
     this.sprite.isReady = false
-    this.sprite.horizontalFrames = 6
+    this.sprite.horizontalFrames = 4
     this.sprite.verticalFrames = 1
     this.sprite.horizontalFrameIndex = 0
     this.sprite.verticalFrameIndex = 0
@@ -40,8 +40,8 @@ class SwordJN {
         this.sprite.frameHeight,
         this.x,
         this.y,
-        50,
-        50,
+        35,
+        25
       )
 
       this.sprite.drawCount++
@@ -57,23 +57,11 @@ class SwordJN {
     //   this.vy *= -1;
     // }
   }
-
+  
   animate() {
     if (this.sprite.drawCount % 10 === 0) {
       this.sprite.horizontalFrameIndex = (this.sprite.horizontalFrameIndex + 1) % this.sprite.horizontalFrames
       this.sprite.drawCount = 0
     }
   }
-
-  collidesWith(element) {
-        if (this.x < element.x + element.width &&
-        this.x + this.width > element.x &&
-        this.y < element.y + element.height &&
-        this.y + this.height > element.y &&
-            !element.haveCollide) {
-            element.haveCollide = true
-            return true
-        }
-        return false  
-    }
 }

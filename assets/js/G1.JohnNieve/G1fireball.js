@@ -24,6 +24,8 @@ class Fireball {
     }
 
     this.sprite.drawCount = 0
+
+    this.haveCollide = false
   }
 
   isReady() {

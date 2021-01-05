@@ -42,7 +42,7 @@ class PlayerG1 {
         this.swords = []
 
         this.sounds = {
-          figth: new Audio('./assets/sounds/sword.mp3')
+            figth: new Audio('./assets/sounds/fireball.wav')
         }
     }
 
@@ -96,7 +96,7 @@ class PlayerG1 {
                 setTimeout(() => {
                     this.canFigth = true
                 }, 500);
-                }
+            }
                 break;
             
             default:
@@ -219,9 +219,22 @@ class PlayerG1 {
     }
 
     collidesWith(element) {
-        return this.x < element.x + element.width &&
+        // if (element.constructor.name === 'Fireball') {
+        //     // console.log('1',this.x < element.x + element.width)
+        //     // console.log('2',this.x + this.width > element.x)
+        //     console.log(this.x < element.x + element.width &&
+        // this.x + this.width > element.x &&
+        // this.y < element.y + element.height &&
+        // this.y + this.height > element.y)
+        // }
+        if (this.x < element.x + element.width &&
         this.x + this.width > element.x &&
         this.y < element.y + element.height &&
-        this.y + this.height > element.y
+        this.y + this.height > element.y &&
+            !element.haveCollide) {
+            element.haveCollide = true
+            return true
+        }
+        return false
     }
 }

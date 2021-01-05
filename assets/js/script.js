@@ -14,6 +14,7 @@ document.addEventListener('keyup', (event) => {
   const player1 = document.getElementById('player1')
   const player2 = document.getElementById('player2')
   const startButton = document.getElementById('start-button')
+  const playAgainButton = document.getElementById('playAgain-button')
 
   if (player1.className != 'hover'){
     player1.onclick = () => {
@@ -23,7 +24,7 @@ document.addEventListener('keyup', (event) => {
       startButton.onclick = () => {
         const canvasGame = document.getElementById('game')
         canvasGame.classList.remove('hidden')
-        game1.start()
+        game1.countDown()
       }
     }
   }
@@ -35,10 +36,14 @@ document.addEventListener('keyup', (event) => {
       startButton.onclick = () => {
           const canvasGame = document.getElementById('game2')
           canvasGame.classList.remove('hidden')
-          game2.start()
+          game2.countDown()
       }
     }
   }
 
-  
+  if (game1.isFinished === true) {
+    playAgainButton.classList.remove('hidden')
+    const canvasGame = document.getElementById('game')
+    canvasGame.classList.add('hidden')
+  }
 }

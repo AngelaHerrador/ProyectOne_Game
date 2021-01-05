@@ -26,6 +26,8 @@ class EnemieKhal {
         this.canFire = true
 
         this.bullets = []
+
+        this.haveCollide = false
     }
 
     isReady() {
@@ -66,7 +68,7 @@ class EnemieKhal {
         this.sprite.drawCount = 0
         }
         if (this.canFire) {
-          this.bullets.push(new Fireball(this.ctx, this.x, this.y, this.maxY + this.height))
+            this.bullets.push(new Fireball(this.ctx, this.x, this.y, this.maxY + this.height))
           this.canFire = false
           setTimeout(() => {
               this.canFire = true
@@ -77,5 +79,17 @@ class EnemieKhal {
     move() {
         this.bullets.forEach(bullet => bullet.move())
         this.x -= SPEED_KHAL
+    }
+
+     collidesWith(element) {
+        if (this.x < element.x + element.width &&
+        this.x + this.width > element.x &&
+        this.y < element.y + element.height &&
+        this.y + this.height > element.y &&
+            !element.haveCollide) {
+            element.haveCollide = true
+            return true
+        }
+        return false  
     }
 }

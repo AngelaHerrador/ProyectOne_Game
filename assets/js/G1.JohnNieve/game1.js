@@ -1,3 +1,8 @@
+// 1. Colisión sword con Khal Drogo (desaparece sin tocarlo)
+// 2. Colisión Jon Snow con Khalesi (resta puntos de vida sin tocarla)
+// 3. Colision sword con finalEnemie (resta puntos sin tocarlo)
+// 3. Swords (no desaparecen al chocar con enemigos) (*)
+
 class Game1 {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId)
@@ -8,14 +13,14 @@ class Game1 {
     this.fps = 1000 / 60
     this.drawInterval = undefined
     this.drawInterval2 = undefined
+    this.drawInterval3 = undefined
 
-    this.background = new BackgroundG1 (this.ctx)
+    this.background = new BackgroundG1(this.ctx)
     this.player = new PlayerG1(this.ctx, 10, this.canvas.height - 165)
     this.enemieKhaleesi = new EnemieKhaleesi(this.ctx, this.canvas.width, 25)
-    this.finalEnemie = new finalEnemie(this.ctx, this.canvas.width/2, 25)
+    this.finalEnemie = new finalEnemie(this.ctx, this.canvas.width / 2, 25)
     
     const theme = new Audio('assets/sounds/theme.mp3')
-    theme.volume = 0.5
     
     this.sounds = {
       theme,
@@ -32,30 +37,94 @@ class Game1 {
     this.enemiesKhalDrawCount = 0
 
     setInterval(() => {
-      this.obstacles.push(new ObstaclesG1 (this.ctx))
+      this.obstacles.push(new ObstaclesG1(this.ctx))
     }, 1000)
 
     this.lives = []
     this.livesDrawCount = 0
 
     setInterval(() => {
-      this.lives.push(new LivesG1 (this.ctx))
+      this.lives.push(new LivesG1(this.ctx))
     }, 1000)
 
     this.points = 0
-    this.pointsSword = new Score (this.ctx, 5, 10)
+    this.pointsSword = new Score(this.ctx, 5, 10)
     this.pointsLives = new LivesPoints(this.ctx, this.ctx.canvas.width - 165, 9)
     
     this.pointScore = 0
     this.pointLives = 5
+
+    this.isStart = false
+    this.isFinished = false
+    this.time3 = 3
+    this.time2 = 2
+    this.time1 = 1
+    this.time = 0
+  }
+
+  countDown() {
+
+    if (!this.isStart) {
+    this.ctx.save()
+  
+    this.ctx.fillStyle = 'rgba(2, 45, 105, 0.4)'
+    this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
+    this.ctx.font = '200px GameOfThrones'
+    this.ctx.fillStyle = 'rgba(2, 45, 105, 1)'
+    this.ctx.fillText(`${this.time3}`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
+  
+    this.ctx.restore()  
+    
+    setTimeout(() => {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+      
+      this.ctx.save()
+      this.ctx.fillStyle = 'rgba(2, 45, 105, 0.4)'
+      this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
+      this.ctx.font = '200px GameOfThrones'
+      this.ctx.fillStyle = 'rgba(2, 45, 105, 1)'
+      this.ctx.fillText(`${this.time2}`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
+  
+      this.ctx.restore()  
+    }, 1000);
+
+    setTimeout(() => {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+
+      this.ctx.save()
+      this.ctx.fillStyle = 'rgba(2, 45, 105, 0.4)'
+      this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
+      this.ctx.font = '200px GameOfThrones'
+      this.ctx.fillStyle = 'rgba(2, 45, 105, 1)'
+      this.ctx.fillText(`${this.time1}`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
+  
+      this.ctx.restore()  
+    }, 2000);
+
+    setTimeout(() => {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+
+      this.ctx.save()
+      this.ctx.fillStyle = 'rgba(2, 45, 105, 0.4)'
+      this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
+      this.ctx.font = '200px GameOfThrones'
+      this.ctx.fillStyle = 'rgba(2, 45, 105, 1)'
+      this.ctx.fillText(`${this.time}`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
+  
+      this.ctx.restore()  
+    }, 3000);
+    this.sounds.start.play()
+      setTimeout(() => {
+        this.sounds.theme.play() 
+        this.start()
+      }, 4000);
+  }
   }
 
   start() {
     if (!this.drawInterval) {
-      this.sounds.theme.play()
-      this.sounds.start.play()
-
       this.drawInterval = setInterval(() => {
+        this.isStart = true
         this.clear()
         this.move()
         this.draw()
@@ -77,7 +146,6 @@ class Game1 {
         }
         this.checkCollisions()
       }, this.fps)
-      
     }
   }
 
@@ -106,13 +174,7 @@ class Game1 {
     this.ctx.font = '18px GameOfThrones'
     this.ctx.fillText(`Lives: ${this.pointLives}`, this.canvas.width - 100, 33)
     this.ctx.restore()
-   }
-  
-  // generateObstacles() {
-  //   if (this.fps % 90 === 0) {
-  //     this.obstacles.push(new Obstacle(this.ctx, this.width, this.player.posY0, this.player.height));
-  //   }
-  // }
+  }
 
   move() {
     this.background.move()
@@ -121,25 +183,42 @@ class Game1 {
     this.lives.forEach(live => live.move())
     this.enemiesKhal.forEach(Khal => Khal.move())
     this.enemieKhaleesi.move()
-   }
+  }
 
-   onKeyEvent(event) {
+  onKeyEvent(event) {
     this.player.onKeyEvent(event)
-//     this.background.onKeyEvent(event)
-//     this.coins.forEach(coin => coin.onKeyEvent(event))
-   }
+  }
   
   finalFigth() {
     clearInterval(this.drawInterval)
-      this.sounds.theme.pause()
-      this.sounds.finalFigth.play()
-      this.drawInterval2 = setInterval(() => {
-        this.background.draw()
-        this.player.draw()
-        this.player.move2()
-        this.finalEnemie.draw()
-        this.finalEnemie.move()
-      }, this.fps) 
+    this.sounds.theme.pause()
+    this.sounds.finalFigth.play()
+    this.drawInterval2 = setInterval(() => {
+      this.background.draw()
+      this.addMenu()
+      this.player.draw()
+      this.player.move2()
+      this.finalEnemie.draw()
+      this.finalEnemie.move()
+      this.checkCollisions2()
+    }, this.fps)
+  }
+
+  addMenu() {
+    this.ctx.save()
+    this.ctx.font = '18px GameOfThrones'
+    this.ctx.fillText(`Lives Jon: ${this.pointLives}`, 30, 33)
+    this.ctx.restore()
+        
+    this.ctx.save()
+    this.ctx.font = '18px GameOfThrones'
+    this.ctx.fillText(`Score: ${this.pointScore}`, this.canvas.width / 3 + 50, 33)
+    this.ctx.restore()
+
+    this.ctx.save()
+    this.ctx.font = '18px GameOfThrones'
+    this.ctx.fillText(`Lives Daenerys: ${this.finalEnemie.livesDT}`, this.canvas.width - 220, 33)
+    this.ctx.restore()
   }
 
   youPass() {
@@ -175,14 +254,46 @@ class Game1 {
     this.ctx.fillText(
       `Your score is now: ${this.pointScore}`,
       this.ctx.canvas.width / 2,
-      this.ctx.canvas.height/2 + 200 
+      this.ctx.canvas.height / 2 + 200
     )
     this.ctx.restore()
+  }
+
+  congrats() {
+    clearInterval(this.drawInterval2)
+    this.sounds.finalFigth.pause()
+    this.sounds.youWin.play()
+
+    this.ctx.save()
+
+    this.ctx.fillStyle = 'black'
+    this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
+
+    this.ctx.font = '30px GameOfThrones'
+    this.ctx.fillStyle = 'white'
+    this.ctx.textAlign = 'center'
+    this.ctx.fillText(
+      'YOU WIN!',
+      this.ctx.canvas.width / 2,
+      this.ctx.canvas.height / 2 - 100,
+    )
+    this.ctx.font = '25px GameOfThrones'
+    this.ctx.fillStyle = 'white'
+    this.ctx.fillText(
+      `Your final score ${this.pointScore}`,
+      this.ctx.canvas.width / 2,
+      this.ctx.canvas.height / 2
+    )
+    
+    this.ctx.restore()
+
+    this.isFinished = true
   }
   
   
   gameOver() {
     clearInterval(this.drawInterval)
+    clearInterval(this.drawInterval2)
     this.sounds.gameOver.play()
 
     this.ctx.save()
@@ -203,73 +314,110 @@ class Game1 {
     this.ctx.fillText(
       `Your final score ${this.pointScore}`,
       this.ctx.canvas.width / 2,
-      this.ctx.canvas.height / 2 
+      this.ctx.canvas.height / 2
     )
     
     this.ctx.restore()
+
+    this.isFinished = true
   }
    
-  addObstacles() { 
+  addObstacles() {
     this.obstacles.push(
-      new ObstaclesG1 (
+      new ObstaclesG1(
         this.ctx,
         this.canvas.width,
         0
       )
     )
     this.pointScore++
-    if (this.pointScore > 2) {
-    this.youPass()
-    setTimeout(() => {
-      this.finalFigth()
-    }, 5000);
+    if (this.pointScore > 10) {
+      this.youPass()
+      setTimeout(() => {
+        this.finalFigth()
+      }, 5000);
       
     }
   }
 
-  addLives() { 
-  this.lives.push(
-    new LivesG1 (
-      this.ctx,
-      this.canvas.width,
-      this.canvas.height - 300
+  addLives() {
+    this.lives.push(
+      new LivesG1(
+        this.ctx,
+        this.canvas.width,
+        this.canvas.height - 300
+      )
     )
-  )
   }
 
-  addEnemiesKhal() { 
-  this.enemiesKhal.push(
-    new EnemieKhal(
+  addEnemiesKhal() {
+    this.enemiesKhal.push(
+      new EnemieKhal(
       this.ctx,
       this.canvas.width,
       this.canvas.height - 185)
-  )
+    )
     this.pointScore++
+
   }
   
   checkCollisions() {
-    // if (this.obstacles.some(obstacle => this.player.collidesWith(obstacle))) {
-    //   this.pointLives -= 1
-    //   // if (this.pointLives < 1) {
-    //   //   this.gameOver()
-    //   // }
-    //   console.log(this.pointLives)
-    // }
+
+    //JS with EnemieKhalesi (*) - Sin colisionar me baja 1pto -
+
+    if (this.player.collidesWith(this.enemieKhaleesi)) {
+      this.pointLives -=1
+    }
+
+    //JS with Obstacles
+
+    if (this.obstacles.some(obstacle => this.player.collidesWith(obstacle))) {
+      this.pointLives -= 1
+    }
+
+    //JS with fireball
+
+    this.enemiesKhal.forEach(Khal => {
+      if (Khal.bullets.some(bullet => this.player.collidesWith(bullet))) {
+        this.pointLives -= 1
+      }
+    })
+
+    //JS with Khals 
+
+    // - Crashes but doesn't go away
+
+    if (this.enemiesKhal.some(Khal => this.player.collidesWith(Khal))) {
+      this.pointLives -= 1
+    }
+
+    // - Crash and disappear
 
     const restEnemies = this.enemiesKhal.filter(Khal => !this.player.collidesWith(Khal))
     const newEnemies = this.enemiesKhal.length - restEnemies.length
     this.pointLives -= newEnemies
-
-     
-    this.enemiesKhal = restEnemies
-  
-      if (this.pointLives < 1) {
-        this.gameOver()
-      } 
     
+    this.enemiesKhal = restEnemies
 
+    //JS Sword with Khal (*) - Antes de tocar al Khal desaparece -
 
+    this.player.swords.forEach(sword => {
+      if (this.enemiesKhal.some(Khal => Khal.collidesWith(sword))) {
+        //console.log('hola')
+        this.enemiesKhal = this.enemiesKhal.filter(Khal => !sword.collidesWith(Khal))
+        this.player.swords = this.player.swords.filter(sword => !this.enemiesKhal.forEach(Khal => Khal.collidesWith(sword)))
+        this.pointScore +=5
+      }
+    })
+    
+    // Case GameOver 
+    
+    if (this.pointLives < 1) {
+      this.gameOver()
+    }
 
+    //JS with lives
+    
     const restLives = this.lives.filter(live => !this.player.collidesWith(live))
     const newLives = this.lives.length - restLives.length
     this.pointLives += newLives
@@ -281,5 +429,43 @@ class Game1 {
 
     this.lives = restLives
   }
-  
+
+
+  checkCollisions2() {
+
+    //Bullets with JS
+
+    if (this.finalEnemie.bullets.some(bullet => this.player.collidesWith(bullet))) {
+      this.pointLives -= 1
+    }
+
+    //Swords with finalEnemie (*) - No desaparece la espada al chocar con finalEnemie -
+
+    if (this.player.swords.some(sword => this.finalEnemie.collidesWith(sword))) {
+      this.player.swords = this.player.swords.filter(sword => !this.finalEnemie.collidesWith(sword))
+
+      this.pointScore += 5
+
+      this.finalEnemie.livesDT -= 1
+    }
+
+    //JS with finalEnemie
+
+    if (this.finalEnemie.collidesWith(this.player)) {
+      console.log ('hola')
+      this.gameOver()
+    }
+
+    //Case GameOver
+
+    if (this.pointLives < 1) {
+      this.gameOver()
+    }
+
+    //Case youWin
+
+    if (this.finalEnemie.livesDT < 1) {
+      this.congrats()
+    }
+  }
 }

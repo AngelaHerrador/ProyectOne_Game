@@ -23,6 +23,8 @@ class ObstaclesG1 {
       this.width = this.sprite.frameWidth
       this.height = this.sprite.frameHeight
     }
+
+    this.haveCollide = false
   }
 
   isReady() {

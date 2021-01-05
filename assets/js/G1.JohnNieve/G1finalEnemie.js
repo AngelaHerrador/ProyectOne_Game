@@ -28,6 +28,10 @@ class finalEnemie {
         this.canFire = true
 
         this.bullets = []
+
+        this.haveCollide = false
+
+        this.livesDT = 5
     }
 
     isReady() {
@@ -72,7 +76,7 @@ class finalEnemie {
           this.canFire = false
           setTimeout(() => {
               this.canFire = true
-          }, 3000);
+          }, 2000);
         }
     }
 
@@ -100,5 +104,17 @@ class finalEnemie {
         this.x = 100
         this.vx = 0.7
     }
+    }
+
+    collidesWith(element) {
+        if (this.x < element.x + element.width &&
+        this.x + this.width > element.x &&
+        this.y < element.y + element.height &&
+        this.y + this.height > element.y &&
+            !element.haveCollide) {
+            element.haveCollide = true
+            return true
+        }
+        return false  
     }
 }

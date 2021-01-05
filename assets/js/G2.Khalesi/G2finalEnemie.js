@@ -1,14 +1,16 @@
-class EnemieKhaleesi {
-    constructor(ctx, x, y) {
+class finalEnemie2 {
+    constructor(ctx, x, y, width, height) {
         this.ctx = ctx
 
         this.x = x
-
         this.y = y
         this.maxY = y
 
+        this.vx = 0.5
+        this.vy = 2
+
         this.sprite = new Image()
-        this.sprite.src = './assets/img/DragonKhaleesi.png'
+        this.sprite.src = './assets/img/DragonKing.png'
         this.sprite.isReady = false
         this.sprite.horizontalFrames = 3
         this.sprite.verticalFrames = 1
@@ -22,10 +24,18 @@ class EnemieKhaleesi {
             this.width = this.sprite.frameWidth
             this.height = this.sprite.frameHeight
         }
+    
+        this.canFire = true
+
+        this.bullets = []
     }
 
     isReady() {
         return this.sprite.isReady
+    }
+
+    clear() {
+    this.bullets = this.bullets.filter(bullet => bullet.x <= this.ctx.canvas.x)
     }
 
     draw() {
@@ -38,11 +48,12 @@ class EnemieKhaleesi {
             this.sprite.frameHeight,
             this.x,
             this.y,
-            210,
-            160
+            250,
+            200
         )
             
         this.sprite.drawCount++
+        this.bullets.forEach(bullet => bullet.draw())
         this.animate()
         }
     }
@@ -56,21 +67,38 @@ class EnemieKhaleesi {
         }
         this.sprite.drawCount = 0
         }
+        if (this.canFire) {
+            this.bullets.push(new FireballKing(this.ctx, this.x, this.y + 160, this.maxY + this.height))
+          this.canFire = false
+          setTimeout(() => {
+              this.canFire = true
+          }, 2000);
+        }
     }
 
     move() {
-        this.x -= SPEED_KHAL
-    }
+    this.bullets.forEach(bullet => bullet.move2())
+    this.x += this.vx
+    this.y += this.vy
 
-     collidesWith(element) {
-        if (this.x < element.x + element.width &&
-        this.x + this.width > element.x &&
-        this.y < element.y + element.height &&
-        this.y + this.height > element.y &&
-            !element.haveCollide) {
-            element.haveCollide = true
-            return true
-        }
-        return false  
+    if (this.y + 200 >= this.ctx.canvas.height) {
+      this.y = this.ctx.canvas.height - 200
+      this.vy *= -0.7
+    }
+        
+    if (this.y <= 0) {
+        this.y = 0
+        this.vy = 0.7
+    }
+        
+    if (this.x + 250 >= this.ctx.canvas.width) {
+        this.x = this.ctx.canvas.width - 250
+        this.vx = -0.7
+    }
+        
+    if (this.x <= 100) {
+        this.x = 100
+        this.vx = 0.7
+    }
     }
 }

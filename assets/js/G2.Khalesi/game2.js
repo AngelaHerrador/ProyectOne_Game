@@ -215,7 +215,7 @@ class Game2 {
 
     this.ctx.save()
     this.ctx.font = '18px GameOfThrones'
-    this.ctx.fillText(`Lives Night King: ${this.finalEnemie.livesDT}`, this.canvas.width - 220, 33)
+    this.ctx.fillText(`Lives Night King: ${this.finalEnemie.livesKN}`, this.canvas.width - 230, 33)
     this.ctx.restore()
   }
 

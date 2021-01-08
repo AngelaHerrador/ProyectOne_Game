@@ -307,6 +307,7 @@ class Game1 {
       clearInterval(this.drawInterval)
       clearInterval(this.drawInterval2)
       this.sounds.theme.pause()
+      this.sounds.finalFigth.pause()
       this.sounds.gameOver.play()
   
       this.ctx.save()
@@ -320,23 +321,7 @@ class Game1 {
       this.ctx.fillText(
         'GAME OVER',
         this.ctx.canvas.width / 2,
-        this.ctx.canvas.height / 2 - 100,
-      )
-
-      this.ctx.font = '25px GameOfThrones'
-      this.ctx.fillStyle = 'white'
-      this.ctx.fillText(
-        `Your final score is`,
-        this.ctx.canvas.width / 2,
-        this.ctx.canvas.height / 2
-      )
-
-      this.ctx.font = '30px GameOfThrones'
-      this.ctx.fillStyle = 'white'
-      this.ctx.fillText(
-        `${this.pointScore}`,
-        this.ctx.canvas.width / 2,
-        this.ctx.canvas.height / 2 + 120
+        this.ctx.canvas.height / 2 ,
       )
       
       this.ctx.restore()

@@ -1,7 +1,7 @@
 // 1. Colisión sword con Khal Drogo (desaparece sin tocarlo)
-// 2. Colisión Jon Snow con Khalesi (resta puntos de vida sin tocarla)
-// 3. Colision sword con finalEnemie (resta puntos sin tocarlo)
-// 3. Swords (no desaparecen al chocar con enemigos) (*)
+// 2. Colision sword con finalEnemie (resta puntos sin tocarlo)
+// 3. Swords (no desaparecen al chocar con enemigos) 
+// 4. No desaparecen las bullets de finalEnemie
 
 class Game1 {
   constructor(canvasId) {
@@ -13,7 +13,6 @@ class Game1 {
     this.fps = 1000 / 60
     this.drawInterval = undefined
     this.drawInterval2 = undefined
-    this.drawInterval3 = undefined
 
     this.background = new BackgroundG1(this.ctx)
     this.player = new PlayerG1(this.ctx, 10, this.canvas.height - 165)
@@ -56,10 +55,6 @@ class Game1 {
 
     this.isStart = false
     this.isFinished = false
-    this.time3 = 3
-    this.time2 = 2
-    this.time1 = 1
-    this.time = 0
   }
 
   countDown() {
@@ -71,7 +66,7 @@ class Game1 {
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
     this.ctx.font = '200px GameOfThrones'
     this.ctx.fillStyle = 'rgba(2, 45, 105, 1)'
-    this.ctx.fillText(`${this.time3}`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
+    this.ctx.fillText(`3`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
   
     this.ctx.restore()  
     
@@ -83,20 +78,7 @@ class Game1 {
       this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
       this.ctx.font = '200px GameOfThrones'
       this.ctx.fillStyle = 'rgba(2, 45, 105, 1)'
-      this.ctx.fillText(`${this.time2}`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
-  
-      this.ctx.restore()  
-    }, 1000);
-
-    setTimeout(() => {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-
-      this.ctx.save()
-      this.ctx.fillStyle = 'rgba(2, 45, 105, 0.4)'
-      this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
-      this.ctx.font = '200px GameOfThrones'
-      this.ctx.fillStyle = 'rgba(2, 45, 105, 1)'
-      this.ctx.fillText(`${this.time1}`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
+      this.ctx.fillText(`2`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
   
       this.ctx.restore()  
     }, 2000);
@@ -109,20 +91,34 @@ class Game1 {
       this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
       this.ctx.font = '200px GameOfThrones'
       this.ctx.fillStyle = 'rgba(2, 45, 105, 1)'
-      this.ctx.fillText(`${this.time}`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
+      this.ctx.fillText(`1`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
   
       this.ctx.restore()  
     }, 3000);
+
+    setTimeout(() => {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+
+      this.ctx.save()
+      this.ctx.fillStyle = 'rgba(2, 45, 105, 0.4)'
+      this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
+      this.ctx.font = '100px GameOfThrones'
+      this.ctx.fillStyle = 'rgba(2, 45, 105, 1)'
+      this.ctx.fillText(`GO!`, this.canvas.width / 3, this.canvas.height / 2 + 50)
+  
+      this.ctx.restore()  
+    }, 4000);
     this.sounds.start.play()
       setTimeout(() => {
         this.sounds.theme.play() 
         this.start()
-      }, 4000);
+      }, 5000);
   }
   }
 
   start() {
     if (!this.drawInterval) {
+      this.sounds.theme.play()
       this.drawInterval = setInterval(() => {
         this.isStart = true
         this.clear()
@@ -140,7 +136,7 @@ class Game1 {
           this.addLives()
           this.livesDrawCount = 0
         }
-        if (this.livesDrawCount % FRAMES_KHAL === 0) {
+        if (this.enemiesKhalDrawCount % FRAMES_KHAL_WW === 0) {
           this.addEnemiesKhal()
           this.enemiesKhalDrawCount = 0
         }
@@ -340,7 +336,7 @@ class Game1 {
       this.ctx.fillText(
         `${this.pointScore}`,
         this.ctx.canvas.width / 2,
-        this.ctx.canvas.height / 2 + 100
+        this.ctx.canvas.height / 2 + 120
       )
       
       this.ctx.restore()
@@ -359,7 +355,7 @@ class Game1 {
       )
     )
     this.pointScore++
-    if (this.pointScore > 10) {
+    if (this.pointScore > 30) {
       this.youPass()
       setTimeout(() => {
         this.finalFigth()
@@ -393,9 +389,9 @@ class Game1 {
 
     //JS with EnemieKhalesi (*) - Sin colisionar me baja 1pto -
 
-    if (this.player.collidesWith(this.enemieKhaleesi)) {
-      this.pointLives -=1
-    }
+    // if (this.player.collidesWith(this.enemieKhaleesi)) {
+    //   this.pointLives -=1
+    // }
 
     //JS with Obstacles
 
@@ -421,17 +417,16 @@ class Game1 {
 
     // - Crash and disappear
 
-    const restEnemies = this.enemiesKhal.filter(Khal => !this.player.collidesWith(Khal))
-    const newEnemies = this.enemiesKhal.length - restEnemies.length
-    this.pointLives -= newEnemies
+    // const restEnemies = this.enemiesKhal.filter(Khal => !this.player.collidesWith(Khal))
+    // const newEnemies = this.enemiesKhal.length - restEnemies.length
+    // this.pointLives -= newEnemies
     
-    this.enemiesKhal = restEnemies
+    // this.enemiesKhal = restEnemies
 
     //JS Sword with Khal (*) - Antes de tocar al Khal desaparece -
 
     this.player.swords.forEach(sword => {
       if (this.enemiesKhal.some(Khal => Khal.collidesWith(sword))) {
-        //console.log('hola')
         this.enemiesKhal = this.enemiesKhal.filter(Khal => !sword.collidesWith(Khal))
         this.player.swords = this.player.swords.filter(sword => !this.enemiesKhal.forEach(Khal => Khal.collidesWith(sword)))
         this.pointScore +=5
@@ -467,15 +462,23 @@ class Game1 {
       this.pointLives -= 1
     }
 
-    //Swords with finalEnemie (*) - No desaparece la espada al chocar con finalEnemie -
+    //Swords with finalEnemie 
 
-    if (this.player.swords.some(sword => this.finalEnemie.collidesWith(sword))) {
-      this.player.swords = this.player.swords.filter(sword => !this.finalEnemie.collidesWith(sword))
+    const restSwords = this.player.swords.filter(sword => !this.finalEnemie.collidesWith(sword))
+    const newSwords = this.player.swords.length - restSwords.length
+    this.pointScore += newSwords * 5
+    this.finalEnemie.livesDT -= newSwords
+    
+    this.player.swords = restSwords
 
-      this.pointScore += 5
+    //finalEnemie bullets with Khalesi
 
-      this.finalEnemie.livesDT -= 1
-    }
+    const restBullets = this.finalEnemie.bullets.filter(bullet => !this.player.collidesWith(bullet))
+    const newBullets = this.finalEnemie.bullets.length - restBullets.length
+    
+    this.pointLives -= newBullets
+    
+    this.finalEnemie.bullets = restBullets
 
     //JS with finalEnemie
 

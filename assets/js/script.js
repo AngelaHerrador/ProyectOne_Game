@@ -25,6 +25,9 @@ document.addEventListener('keyup', (event) => {
         const canvasGame = document.getElementById('game')
         canvasGame.classList.remove('hidden')
         game1.countDown()
+        playAgainButton.classList.remove('hidden')
+        const text = document.getElementById('extra')
+        text.classList.remove('hidden')
       }
     }
   }
@@ -34,16 +37,16 @@ document.addEventListener('keyup', (event) => {
       player2.classList.add('hover')
       
       startButton.onclick = () => {
-          const canvasGame = document.getElementById('game2')
-          canvasGame.classList.remove('hidden')
-          game2.countDown()
+        const canvasGame = document.getElementById('game2')
+        canvasGame.classList.remove('hidden')
+        game2.countDown()
+        playAgainButton.classList.remove('hidden')
+        const text = document.getElementById('extra')
+        text.classList.remove('hidden')
       }
     }
   }
-
-  if (game1.isFinished) {
-    playAgainButton.classList.remove('hidden')
-    const canvasGame = document.getElementById('game')
-    canvasGame.classList.add('hidden')
+  playAgainButton.onclick = () => {
+    window.location.reload()
   }
 }

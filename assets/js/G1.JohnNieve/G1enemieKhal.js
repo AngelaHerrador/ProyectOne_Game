@@ -87,6 +87,7 @@ class EnemieKhal {
         this.y < element.y + element.height &&
         this.y + this.height > element.y &&
             !element.haveCollide) {
+            debugger
             element.haveCollide = true
             return true
         }

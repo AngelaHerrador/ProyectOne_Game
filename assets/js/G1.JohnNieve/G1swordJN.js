@@ -19,11 +19,12 @@ class SwordJN {
       this.sprite.isReady = true
       this.sprite.frameWidth = Math.floor(this.sprite.width / this.sprite.horizontalFrames)
       this.sprite.frameHeight = Math.floor(this.sprite.height / this.sprite.verticalFrames)
-      this.width = this.sprite.frameWidth
-      this.height = this.sprite.frameWidth
+      this.width = 50
+      this.height = 50
     }
 
     this.sprite.drawCount = 0
+    this.haveCollide = false
   }
 
   isReady() {
@@ -40,8 +41,8 @@ class SwordJN {
         this.sprite.frameHeight,
         this.x,
         this.y,
-        50,
-        50,
+        this.width,
+        this.height,
       )
 
       this.sprite.drawCount++

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./assets/styles/style.css">
 </head>
 <body>
+    <p id="extra" class= "hidden"> If you get more than 30 points, you will pass to the final battle. </br> Come on! </br> <b>You can do it!</b></p>
     <div class= "display">
         <img class= 'choose' src="./assets/img/Choose.png" alt="Choose your player">
         <div>
@@ -14,22 +15,27 @@
             <img id= 'player2' src="./assets/img/Daenerys.png" alt="Player2">
         </div>
         <div>
-            <button id='start-button'>START</button><button id='playAgain-button' class='hidden'>PLAY AGAIN</button>
+            <button id='start-button'>START</button>
         </div>
     </div>
     <div class= 'instructions'>
         <h2>INSTRUCTIONS</h2>
             <div>
                 <p>Use the arrow keys to move forward, backward and jump.</p>
-                <img src="./assets/img/Arrows.jpg" alt="Arrows keyboard">
+                <img class= "arrows" src="./assets/img/Arrows.png" alt="Arrows keyboard">
             </div>
             <div>
                 <p>Use the space key to throw your sword to the enemies.</p>
-                <img src="./assets/img/Space.jpg" alt="Space keyboard">
+                <img class= "space" src="./assets/img/Space.png" alt="Space keyboard">
             </div>
     </div>
-    <canvas id='game' class="hidden"></canvas>
-    <canvas id='game2' class="hidden"></canvas>
+
+    <div>
+        <button id='playAgain-button' class='hidden'>START AGAIN</button>
+        <canvas id='game' class="hidden"></canvas>
+        <canvas id='game2' class="hidden"></canvas>
+    </div>
+    
     
     <script src="./assets/js/constants.js"></script>
     <script src="./assets/js/score.js"></script>

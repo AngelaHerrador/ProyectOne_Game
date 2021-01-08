@@ -21,8 +21,8 @@ class finalEnemie2 {
             this.sprite.isReady = true
             this.sprite.frameWidth = Math.floor(this.sprite.width / this.sprite.horizontalFrames)
             this.sprite.frameHeight = Math.floor(this.sprite.height / this.sprite.verticalFrames)
-            this.width = this.sprite.frameWidth
-            this.height = this.sprite.frameHeight
+            this.width = 250
+            this.height = 200
         }
     
         this.canFire = true
@@ -52,8 +52,8 @@ class finalEnemie2 {
             this.sprite.frameHeight,
             this.x,
             this.y,
-            250,
-            200
+            this.width,
+            this.height
         )
             
         this.sprite.drawCount++

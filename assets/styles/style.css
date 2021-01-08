@@ -28,13 +28,26 @@ canvas {
     display: none;
 }
 
-button {
-    width: 100px;
+.btn-start {
+    width: 120px;
     padding: 10px;
     margin: 10px 20px 20px 20px;
     font-size: 20px;
     font-weight: bolder;
     background-color: #18C49A;
+    color: #E5EAE9;
+    border-radius: 10%;
+}
+
+.btn-playAgain{
+    width: 120px;
+    padding: 10px;
+    margin: 10px 20px 20px 20px;
+    font-size: 20px;
+    font-weight: bolder;
+    background-color: #F94225;
+    color: #E5EAE9;
+    border-radius: 10%;
 }
 
 .display{
@@ -45,6 +58,13 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.display h1{
+    font-family: 'GameOfThrones';
+    color: #E5EAE9;
+    margin: 10px;
+    padding-top: 5px;
 }
 
 .choose{
@@ -85,7 +105,7 @@ button {
 }
 
 .instructions h2{
-    margin-right: 20px;
+    margin-right: 18px;
     font-family: 'GameOfThrones';
 }
 
@@ -96,7 +116,7 @@ button {
 #playAgain-button{
     position: absolute;
     right: -70%;
-    top: 50%;
+    top: 40%;
 }
 
 #extra {

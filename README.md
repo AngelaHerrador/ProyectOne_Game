@@ -1,11 +1,11 @@
 # ProyectOne_Game
 Primera iteración: MENÚ DEL JUEGO
-Utilizando DOM planteamos el menú del juego que tendra dos jugadores posibles, las intrucciones y el botón de start, que dependiendo del jugador elegido cargará un canvas u otro.
+Utilizando DOM se plantea el menú del juego que tendra dos jugadores posibles, las intrucciones y el botón de start, que dependiendo del jugador elegido cargará un canvas u otro.
 
 ![Menú de Inicio](https://raw.githubusercontent.com/AngelaHerrador/ProyectOne_Game/master/assets/img/README/Iteración1.png)
 
 Segunda iteración: CREACIÓN DEL JUEGO
-Dentro de cada canvas desarrollo los siguientes aspectos del juego:
+Dentro de cada canvas se desarrollan los siguientes aspectos del juego:
 
 A. Background: planteo un fondo en constante movimiento que obligue a avanzar al player, pero de cuyo movimiento solo dependan los obstaculos, que iran saliendo según avance el canvas.
 
@@ -35,7 +35,7 @@ I. Lives: si le toca un obstaculo, una bala o un enemigo perderá un punto de vi
 
 Tercera iteración: GAME OVER / YOU WIN!
 
-Añado funcionalidad de ganar y perder, que dependerán de las lives y el score.
+Se añade la funcionalidad de ganar y perder, que dependerá de las lives y el score.
 
 Cuarta iteración: BATALLA FINAL
 
@@ -45,7 +45,11 @@ Pierde si el player agota sus vidas.
 
 Quinta iteración: CUENTA ATRÁS
 
-Añado información de interés para saber en que momento podemos pasar a la batalla final y genero una cuenta atrás que permita prepararse al jugador.
+Se añade información de interés para saber en que momento podemos pasar a la batalla final y genero una cuenta atrás que permita prepararse al jugador.
+
+Sexta iteración: BOTÓN RESET
+
+Se añade un botón que se hará visible una vez se comience el juego y que permitirá volver al menú principal.
 
 
 

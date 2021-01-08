@@ -78,7 +78,7 @@ class Game2 {
       this.ctx.fillText(`2`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
   
       this.ctx.restore()  
-    }, 2000);
+    }, 1000);
 
     setTimeout(() => {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -91,7 +91,7 @@ class Game2 {
       this.ctx.fillText(`1`, this.canvas.width / 2 - 50, this.canvas.height / 2 + 50)
   
       this.ctx.restore()  
-    }, 3000);
+    }, 2000);
 
     setTimeout(() => {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -104,12 +104,12 @@ class Game2 {
       this.ctx.fillText(`GO!`, this.canvas.width / 3, this.canvas.height / 2 + 50)
   
       this.ctx.restore()  
-    }, 4000);
+    }, 3000);
     this.sounds.start.play()
       setTimeout(() => {
         this.sounds.theme.play() 
         this.start()
-      }, 5000);
+      }, 4000);
   }
   }
 
